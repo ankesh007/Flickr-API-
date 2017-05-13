@@ -5,9 +5,9 @@ var keys = {"api_key": "3e68a0c966142796cb2e5ed4188edd5d"}
 //Key generated online
 flickr = new Flickr(keys);
 
-PAGES = 1;
+PAGES = 300;
 //To pull per page
-IMAGES_PER_PAGE = 5;
+IMAGES_PER_PAGE = 500;
 
 var dataToWrite;
 var fs = require('fs');
