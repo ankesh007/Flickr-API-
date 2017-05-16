@@ -12,9 +12,9 @@ var hashtable_photoid = new HashTable();
 
 
 
-var PAGES = 6;
+var PAGES = 1;
 //To pull per page
-var IMAGES_PER_PAGE = 450;//450;
+var IMAGES_PER_PAGE = 5;//450;
 // var LoopTimes = 2;
 
 
@@ -28,7 +28,7 @@ var flag=true;
 var unix_timestamp=1420070400;
 var slide_window=(10*86400);
 var exp=0;
-var exp_limit=10;//40;
+var exp_limit=1;//40;
 
 while(exp<exp_limit)
 {
@@ -75,28 +75,45 @@ for(page=1;page<=PAGES && flag;page++)
 
 	hashtable_photoid.put((temp_photo.id+"_"+temp_photo.secret),{value:1});
 
-	dataToWrite="https://farm"+temp_photo.farm+".staticflickr.com/"+temp_photo.server+"/"+temp_photo.id+"_"+temp_photo.secret+".jpg\n";
-	//console.log(dataToWrite);
-    //console.log(temp_photo);
+	dataToWrite="https://farm"+temp_photo.farm+".staticflickr.com/"+temp_photo.server+"/"+temp_photo.id+"_"+temp_photo.secret+".jpg";
 
-	// fs.writeFile(csv_FileName, dataToWrite, 'utf8', function (err) {
+(function(fileData,pageNo,IMAGES_PER_PAGE2){
+		flickr.get("photos.getInfo", {"photo_id":temp_photo.id,"secret":temp_photo.secret}, function(err2, result2){
+    if (err2) return console.error(err2);
 
-// 		flickr.get("stats.getPhotoStats", {"photo_id":temp_photo.id,"authenticated":true}, function(err2, result2){
-//     if (err2) return console.error(err2);
+    fileData=fileData+","+result2.photo.views;
+    //console.log(fileData);
+    // dataToWrite=dataToWrite+","+result2.photo.views;
+    // console.log(dataToWrite);
 
-//     console.log(result2);
-// });
+    (function(fileData,pageNo,IMAGES_PER_PAGE2)
+    {
+    	flickr.get("people.getInfo",{"user_id":result2.photo.owner.nsid},function(err3,result3)
+    	{
+    		if(err3)return console.error(err3);
+    		// console.log(result3.person.photos.count);
+    		// console.log(result3.person.photos.count._content);
+    		//fileData=fileData+
 
-
-	fs.appendFile('CSV\'S/'+csv_FileName+'_'+pageNo+'_'+IMAGES_PER_PAGE2+extension, dataToWrite, 'utf8', function (err) {
+	fs.appendFile('CSV\'S/'+csv_FileName+'_'+pageNo+'_'+IMAGES_PER_PAGE2+extension, fileData+","+result3.person.photos.count._content+"\n", 'utf8', function (err) {
   	if (err) {
     console.log('Some error occured - file either not saved or corrupted file saved.');
     var delay=1000;
     while(delay--){}
   	} 
 	});
+    	});
+    })(fileData,pageNo,IMAGES_PER_PAGE2);
+
+
+
+
+});
+		
+
+	})(dataToWrite,pageNo,IMAGES_PER_PAGE2);
+
 	//console.log("\n");
-	if(counter>10000)flag=false;
   	}	
   }
 });
