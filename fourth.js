@@ -41,7 +41,7 @@ var slide_window=(10*86400);
 var exp=1;
 var exp_limit=2;//40;
 
-	Flickr.authenticate(flickrOptions,function(error,flickr){
+	Flickr.tokenOnly(flickrOptions,function(error,flickr){
 while(exp<exp_limit)
 {
 	exp++;
@@ -90,18 +90,6 @@ for(page=1;page<=PAGES && flag;page++)
 		{
 
 		counter++;
-		// console.log("Reached");
-		// console.log(temp_photo.min_upload_date);
-		//console.log(counter);
-		flickr.stats.getPhotoStats({
-			photo_id:temp_photo.id,
-			date:2016-12-31,
-			authenticated:true
-
-		},function(err2,result2){
-			if(err2)return console.error(err2);
-		console.log(result2);	
-		});
 
 
 	hashtable_photoid.put((temp_photo.id+"_"+temp_photo.secret),{value:1});
