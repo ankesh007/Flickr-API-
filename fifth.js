@@ -12,6 +12,7 @@ var hashtable_photoid = new HashTable();
 
 var PAGES = 2;//To pull per page
 var IMAGES_PER_PAGE = 4;//450;
+var TAGS="cat,dogs,rats,myself,love,friend";
 
 var fs = require('fs');
 var csv_FileName='URLs';
@@ -39,13 +40,11 @@ for(page=1;page<=PAGES;page++)
 
 (function(page,exp){
 
-	flickr.get("photos.search", {"tags":"cat,dogs,rats,myself,love,friend","per_page":IMAGES_PER_PAGE,"page":page,"min_upload_date":unix_timestamp,"max_upload_date":(unix_timestamp+slide_window)}, function(err, result){
+	flickr.get("photos.search", {"tags":TAGS,"per_page":IMAGES_PER_PAGE,"page":page,"min_upload_date":unix_timestamp,"max_upload_date":(unix_timestamp+slide_window)}, function(err, result){
     if (err) return console.error(err);
 
 
     var PULLED=result.photos.photo.length; 
-    // var pageNo=result.photos.page;
-    // var IMAGES_PER_PAGE2=result.photos.perpage;
 
   	for(i=0;i<PULLED;i++)
   	{
@@ -92,10 +91,12 @@ for(page=1;page<=PAGES;page++)
 
   	}	//*******END ELSE*********
   } //**********END PULLED LOOP **********
+
 }); //****************END REQUEST1***********************
 })(page,exp);//*********END REQUEST1 FUNC************
 
 } //*********END PAGES LOOP***********
+
 unix_timestamp+=slide_window;
 console.log(exp);
 }//***********END SLIDING LOOP************
