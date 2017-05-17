@@ -10,24 +10,21 @@ flickr = new Flickr(keys,secret);//instance of Flickr
 var HashTable = require('hashtable');
 var hashtable_photoid = new HashTable();
 
-var PAGES = 2;//To pull per page
-var IMAGES_PER_PAGE = 4;//450;
+//****************Setting PULL parameter****************
+var exp=0;  
+var exp_limit=1;
+var PAGES = 4;
+var IMAGES_PER_PAGE = 5;
 var TAGS="cat,dogs,rats,myself,love,friend";
+var unix_timestamp=1420070400;
+var slide_window=(10*86400);
+
 
 var fs = require('fs');
 var csv_FileName='URLs';
 var extension='.csv';
 
 var counter=0;
-var flag=true;
-var unix_timestamp=1420070400;
-var slide_window=(10*86400);
-var exp=0;  
-var exp_limit=1;//40;
-
-// process.on('uncaughtException', function (err) {
-//     console.log(err);
-// }); 
 
 while(exp<exp_limit)
 {
