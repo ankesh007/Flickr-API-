@@ -1,0 +1,22 @@
+
+The program makes call to Flickr API and saves public image URL, number of views of image and total count of uploads of user in a CSV file.
+
+The above has been written in node js and has been tested on Ubuntu 16.04.
+
+The program pulls ~1500 different images every hour without violating FlickrAPI regulations.
+
+If running the program for the first time,run
+./submit.sh
+
+For further running, use 
+./runFinal.sh
+
+
+You may need to give execute permission to the script, so if any error comes on executing above command, do:
+chmod +x submit.sh
+chmod +x runFinal.sh
+
+
+FlickCall is the file where you can play with the parameters.
+To run the file, type,
+./run.sh
