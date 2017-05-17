@@ -3,4 +3,5 @@ to install:
 npm install hashtable
 npm install csv
 npm install node-flickr
+npm install node-schedule
 
