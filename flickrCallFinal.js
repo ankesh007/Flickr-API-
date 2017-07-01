@@ -16,25 +16,18 @@ var hashtable_photoid = new HashTable();
 
 //****************Setting PULL parameter****************
 var exp=0;  
-var exp_limit=60;
+var exp_limit=70;
 var PAGES = 3;
-var IMAGES_PER_PAGE = 500;
+var IMAGES_PER_PAGE = 480;
 var TAGS="cat,dogs,rats,myself,love,friend";
 var unix_timestamp=1420070400;//01/01/2015
-var slide_window=(10*86400);//10 days
+var slide_window=(6*86400);//6 days
 //****************Setting PULL parameter ENDED****************
 
 
 //****************Setting SCHEDULING parameter****************
-var schedule = require('node-schedule');
-var rule = new schedule.RecurrenceRule();
-rule.minute=0;//will run at 0 minute of every hour, that is at *:00:00
-
-var startOffset=2000;
-var TimeStamps=3600*1000;//interval between two adjacent executions of scheduler
-
-let startTime = new Date(Date.now() + startOffset);
-let endTime = new Date(startTime.getTime() + exp_limit*TimeStamps);
+var minutes=70
+the_interval=minutes*60*1000
 //****************Setting SCHEDULING parameter ENDED****************
 
 
@@ -46,9 +39,13 @@ var extension='.csv';
 
 var counter=0;
 
-var scheduling = schedule.scheduleJob({start:startTime,end:endTime,rule:rule},function()
-{	
+var interval=setInterval(function() {	
 	exp++;
+
+	if(exp==exp_limit)
+	{
+		clearInterval(interval);
+	}
 
 for(page=1;page<=PAGES;page++)
 {
@@ -116,4 +113,4 @@ for(page=1;page<=PAGES;page++)
 
 unix_timestamp+=slide_window;
 console.log(exp);
-}); //**********Scheduler Ends**********
+},the_interval); //**********Scheduler Ends**********

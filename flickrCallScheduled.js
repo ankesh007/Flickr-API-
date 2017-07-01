@@ -16,9 +16,9 @@ var hashtable_photoid = new HashTable();
 
 //****************Setting PULL parameter****************
 var exp=0;  
-var exp_limit=1;
-var PAGES = 1;
-var IMAGES_PER_PAGE = 10;
+var exp_limit=60;
+var PAGES = 3;
+var IMAGES_PER_PAGE = 450;
 var TAGS="cat,dogs,rats,myself,love,friend";
 var unix_timestamp=1420070400;//01/01/2015
 var slide_window=(10*86400);//10 days
@@ -26,12 +26,8 @@ var slide_window=(10*86400);//10 days
 
 
 //****************Setting SCHEDULING parameter****************
-var schedule = require('node-schedule');
-var rule = new schedule.RecurrenceRule();
-// rule.minute=0;
-rule.second=null;
-let startTime = new Date(Date.now() + 2000);
-let endTime = new Date(startTime.getTime() + exp_limit*1000);
+var minutes=70
+the_interval=minutes*60*1000
 //****************Setting SCHEDULING parameter ENDED****************
 
 
@@ -43,11 +39,13 @@ var extension='.csv';
 
 var counter=0;
 
-// while(exp<exp_limit)
-// {
-var scheduling = schedule.scheduleJob({start:startTime,end:endTime,rule:rule},function()
-{	
+var interval=setInterval(function() {	
 	exp++;
+
+	if(exp==exp_limit)
+	{
+		clearInterval(interval);
+	}
 
 for(page=1;page<=PAGES;page++)
 {
@@ -93,7 +91,7 @@ for(page=1;page<=PAGES;page++)
 	
 	dataToWrite=dataToWrite+","+result3.person.photos.count._content;
 	
-	fs.appendFile('CSV\'S/'+csv_FileName+'_'+page+'_'+extension, dataToWrite+"\n", 'utf8', function (err) {
+	fs.appendFile('CSV\'S/'+csv_FileName+'_'+page+'_'+exp+extension, dataToWrite+"\n", 'utf8', function (err) {
   	if (err) {
     console.log('Some error occured - file either not saved or corrupted file saved.');
     } 
@@ -115,5 +113,4 @@ for(page=1;page<=PAGES;page++)
 
 unix_timestamp+=slide_window;
 console.log(exp);
-}); //**********Scheduler Ends**********
-//}//***********END SLIDING LOOP************
+},the_interval); //**********Scheduler Ends**********
