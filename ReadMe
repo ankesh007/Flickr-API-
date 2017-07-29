@@ -3,7 +3,7 @@ The program makes call to Flickr API and saves public image URL, number of views
 
 The above has been written in node js and has been tested on Ubuntu 16.04.
 
-The program pulls ~1500 different images every hour without violating FlickrAPI regulations.
+The program pulls ~1500 different images every 70 minutes without violating FlickrAPI regulations.
 
 If running the program for the first time,run
 ./submit.sh
